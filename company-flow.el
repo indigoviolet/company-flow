@@ -120,7 +120,8 @@ PROCESS, and terminates standard input with EOF."
          (col (+ 1 (current-column)))
          (command (list (executable-find company-flow-executable)
                         "autocomplete"
-                        buffer-file-name
+                        (file-relative-name (buffer-file-name) (projectile-project-root))
+                        ;; buffer-file-name
                         (number-to-string line)
                         (number-to-string col)))
          (process-connection-type nil)
@@ -137,6 +138,7 @@ PROCESS, and terminates standard input with EOF."
            (-contains? company-flow-modes major-mode))
        company-flow-executable
        (executable-find company-flow-executable)
+       ;; (file-relative-name (buffer-file-name) (projectile-project-root))
        buffer-file-name
        (file-exists-p buffer-file-name)
        (not (company-in-string-or-comment))
